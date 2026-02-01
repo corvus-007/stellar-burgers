@@ -3,7 +3,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 import { getUser } from '../../services/slices/user/userSlice';
-import { fetchUser, updateUser } from '../../services/slices/user/userThunks';
+import { updateUser } from '../../services/slices/user/userThunks';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
@@ -15,10 +15,6 @@ export const Profile: FC = () => {
     email: user?.email || '',
     password: ''
   });
-
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, []);
 
   useEffect(() => {
     setFormValue((prevState) => ({

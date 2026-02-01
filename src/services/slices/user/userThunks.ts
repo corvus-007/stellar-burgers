@@ -1,12 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getUserApi,
+  isTokenExists,
   loginUserApi,
+  logoutApi,
   registerUserApi,
   TLoginData,
   TRegisterData,
   updateUserApi
 } from '@api';
+import { setIsAuthChecked, setUser } from './userSlice';
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
@@ -18,11 +21,24 @@ export const loginUser = createAsyncThunk(
   async (data: TLoginData) => loginUserApi(data)
 );
 
-export const fetchUser = createAsyncThunk('user/fetchUser', async () =>
-  getUserApi()
+export const logoutUser = createAsyncThunk('user/logoutUser', async () =>
+  logoutApi()
 );
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (user: Partial<TRegisterData>) => updateUserApi(user)
+);
+
+export const checkUserAuth = createAsyncThunk(
+  'user/checkUserAuth',
+  async (_, { dispatch }) => {
+    if (isTokenExists()) {
+      getUserApi()
+        .then((res) => dispatch(setUser(res.user)))
+        .finally(() => dispatch(setIsAuthChecked(true)));
+    } else {
+      dispatch(setIsAuthChecked(true));
+    }
+  }
 );

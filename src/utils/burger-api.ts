@@ -179,8 +179,10 @@ export const loginUserApi = (data: TLoginData) =>
       if (data?.success) {
         localStorage.setItem('refreshToken', data.refreshToken);
         setCookie('accessToken', data.accessToken);
+
         return data;
       }
+
       return Promise.reject(data);
     });
 
@@ -219,6 +221,13 @@ export const getUserApi = () =>
     headers: {
       authorization: getCookie('accessToken')
     } as HeadersInit
+  }).then((data) => {
+    if (data?.success) return data;
+
+    localStorage.removeItem('accessToken');
+    setCookie('accessToken', '', { expires: -1 });
+
+    return Promise.reject(data);
   });
 
 export const updateUserApi = (user: Partial<TRegisterData>) =>
@@ -240,4 +249,11 @@ export const logoutApi = () =>
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken')
     })
-  }).then((res) => checkResponse<TServerResponse<{}>>(res));
+  })
+    .then((res) => checkResponse<TServerResponse<{}>>(res))
+    .finally(() => {
+      localStorage.removeItem('refreshToken');
+      setCookie('accessToken', '', { expires: -1 });
+    });
+
+export const isTokenExists = () => !!getCookie('accessToken');

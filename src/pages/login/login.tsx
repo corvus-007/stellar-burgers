@@ -1,8 +1,12 @@
 import { FC, SyntheticEvent, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import { loginUser } from '../../services/slices/user/userThunks';
-import { getUserError } from '../../services/slices/user/userSlice';
+import {
+  getIsAuthenticated,
+  getUserError
+} from '../../services/slices/user/userSlice';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +14,7 @@ export const Login: FC = () => {
 
   const dispatch = useDispatch();
   const error = useSelector(getUserError);
+  const isAuthenticated = useSelector(getIsAuthenticated);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -20,6 +25,10 @@ export const Login: FC = () => {
       })
     );
   };
+
+  if (isAuthenticated) {
+    return <Navigate to='/' />;
+  }
 
   return (
     <LoginUI

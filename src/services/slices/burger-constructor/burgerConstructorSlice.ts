@@ -30,7 +30,6 @@ export const burgerConstructorSlice = createSlice({
   },
   reducers: {
     setBun(state, action: PayloadAction<TIngredient>) {
-      console.log(state, action);
       state.constructorItems.bun = action.payload;
     },
     addIngredient: {
