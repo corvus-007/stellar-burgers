@@ -9,7 +9,7 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
-import { setIsAuthChecked, setUser } from './userSlice';
+import { setIsAuthChecked, setIsAuthenticated, setUser } from './userSlice';
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
@@ -36,6 +36,7 @@ export const checkUserAuth = createAsyncThunk(
     if (isTokenExists()) {
       getUserApi()
         .then((res) => dispatch(setUser(res.user)))
+        .then(() => dispatch(setIsAuthenticated(true)))
         .finally(() => dispatch(setIsAuthChecked(true)));
     } else {
       dispatch(setIsAuthChecked(true));

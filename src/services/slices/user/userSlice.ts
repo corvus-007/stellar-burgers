@@ -25,11 +25,15 @@ export const userSlice = createSlice({
     },
     setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
+    },
+    setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload;
     }
   },
   selectors: {
     getUserError: (sliceState) => sliceState.error,
     getUser: (sliceState) => sliceState.user,
+    getUserName: (sliceState) => sliceState.user?.name,
     getIsAuthChecked: (sliceState) => sliceState.isAuthChecked,
     getIsAuthenticated: (sliceState) => sliceState.isAuthenticated
   },
@@ -76,7 +80,13 @@ export const userSlice = createSlice({
   }
 });
 
-export const { getUserError, getUser, getIsAuthChecked, getIsAuthenticated } =
-  userSlice.selectors;
+export const {
+  getUserError,
+  getUser,
+  getUserName,
+  getIsAuthChecked,
+  getIsAuthenticated
+} = userSlice.selectors;
 
-export const { setUser, setIsAuthChecked } = userSlice.actions;
+export const { setUser, setIsAuthChecked, setIsAuthenticated } =
+  userSlice.actions;

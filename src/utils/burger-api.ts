@@ -252,7 +252,7 @@ export const logoutApi = () =>
   })
     .then((res) => checkResponse<TServerResponse<{}>>(res))
     .finally(() => {
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       setCookie('accessToken', '', { expires: -1 });
     });
 
