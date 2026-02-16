@@ -1,6 +1,8 @@
 import {
   addIngredient,
   burgerConstructorSlice,
+  moveDownIngredient,
+  moveUpIngredient,
   removeIngredient,
   setBun,
   TBurgerConstructorState
@@ -71,7 +73,7 @@ describe('Проверяют редьюсер слайса burgerConstructor', (
   });
 
   test('удаление ингредиента', () => {
-    const ingredient = {
+    const ingredient: TIngredient & { id: string } = {
       id: nanoid(),
       _id: '643d69a5c3f7b9001cfa0941',
       name: 'Биокотлета из марсианской Магнолии',
@@ -100,5 +102,70 @@ describe('Проверяют редьюсер слайса burgerConstructor', (
     const ingredients = newState.constructorItems.ingredients;
 
     expect(ingredients).toHaveLength(0);
+  });
+
+  describe('перемещение ингредиентов', () => {
+    let initialState: TBurgerConstructorState;
+    const ingredient1: TIngredient & { id: string } = {
+      id: nanoid(),
+      _id: '643d69a5c3f7b9001cfa0941',
+      name: 'Биокотлета из марсианской Магнолии',
+      type: 'main',
+      proteins: 420,
+      fat: 142,
+      carbohydrates: 242,
+      calories: 4242,
+      price: 424,
+      image: 'https://code.s3.yandex.net/react/code/meat-01.png',
+      image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
+      image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png'
+    };
+    const ingredient2: TIngredient & { id: string } = {
+      id: nanoid(),
+      _id: '643d69a5c3f7b9001cfa0942',
+      name: 'Соус Spicy-X',
+      type: 'sauce',
+      proteins: 30,
+      fat: 20,
+      carbohydrates: 40,
+      calories: 30,
+      price: 90,
+      image: 'https://code.s3.yandex.net/react/code/sauce-02.png',
+      image_mobile: 'https://code.s3.yandex.net/react/code/sauce-02-mobile.png',
+      image_large: 'https://code.s3.yandex.net/react/code/sauce-02-large.png'
+    };
+
+    beforeEach(() => {
+      initialState = {
+        constructorItems: {
+          bun: null,
+          ingredients: [ingredient1, ingredient2]
+        },
+        orderRequest: false,
+        orderModalData: null
+      };
+    });
+
+    test('перемещение первого ингредиента вниз', () => {
+      const newState = burgerConstructorSlice.reducer(
+        initialState,
+        moveDownIngredient(0)
+      );
+      const expectedIngredients = newState.constructorItems.ingredients;
+
+      expect(ingredient1).toEqual(expectedIngredients[1]);
+      expect(ingredient2).toEqual(expectedIngredients[0]);
+    });
+
+    test('перемещение второго ингредиента вверх', () => {
+      const newState = burgerConstructorSlice.reducer(
+        initialState,
+        moveUpIngredient(1)
+      );
+      const expectedIngredients = newState.constructorItems.ingredients;
+
+      expect(ingredient1).toEqual(expectedIngredients[1]);
+      expect(ingredient2).toEqual(expectedIngredients[0]);
+    });
   });
 });
