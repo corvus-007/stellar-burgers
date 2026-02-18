@@ -9,7 +9,9 @@ import {
   TBurgerConstructorState
 } from './burgerConstructorSlice';
 import { TIngredient } from '@utils-types';
-import { nanoid } from '@reduxjs/toolkit';
+import { configureStore, nanoid } from '@reduxjs/toolkit';
+import { orderBurger } from './burgerConstructorThunks';
+import * as burgerApi from '@api';
 
 describe('Проверяют редьюсер слайса burgerConstructor', () => {
   test('добавление булочки', () => {
@@ -222,6 +224,49 @@ describe('Проверяют редьюсер слайса burgerConstructor', (
 
       expect(ingredient1).toEqual(expectedIngredients[1]);
       expect(ingredient2).toEqual(expectedIngredients[0]);
+    });
+  });
+
+  describe('тест асинхронных экшенов', () => {
+    test('совершение нового заказа', async () => {
+      const orderBurgerRequest = [
+        '643d69a5c3f7b9001cfa093d',
+        '643d69a5c3f7b9001cfa093e',
+        '643d69a5c3f7b9001cfa093d'
+      ];
+      const expectedOrderData = {
+        ingredients: [
+          '643d69a5c3f7b9001cfa093d',
+          '643d69a5c3f7b9001cfa093e',
+          '643d69a5c3f7b9001cfa093d'
+        ],
+        _id: '699616cba64177001b32c6bd',
+        status: 'done',
+        name: 'Флюоресцентный люминесцентный бургер',
+        createdAt: '2026-02-18T19:45:15.368Z',
+        updatedAt: '2026-02-18T19:45:15.588Z',
+        number: 101166
+      };
+      const orderBurgerResponse = {
+        success: true,
+        name: 'Флюоресцентный люминесцентный бургер',
+        order: expectedOrderData
+      };
+      const orderBurgerMock = jest
+        .spyOn(burgerApi, 'orderBurgerApi')
+        .mockResolvedValue(orderBurgerResponse);
+      const store = configureStore({
+        reducer: {
+          burgerConstructor: burgerConstructorSlice.reducer
+        }
+      });
+
+      await store.dispatch(orderBurger(orderBurgerRequest));
+
+      const { orderModalData } = store.getState().burgerConstructor;
+
+      expect(orderBurgerMock).toHaveBeenCalled();
+      expect(orderModalData).toEqual(expectedOrderData);
     });
   });
 });
