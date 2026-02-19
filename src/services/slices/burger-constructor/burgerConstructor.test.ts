@@ -265,7 +265,7 @@ describe('Проверяют редьюсер слайса burgerConstructor', (
 
       const { orderModalData } = store.getState().burgerConstructor;
 
-      expect(orderBurgerMock).toHaveBeenCalled();
+      expect(orderBurgerMock).toHaveBeenCalledWith(orderBurgerRequest);
       expect(orderModalData).toEqual(expectedOrderData);
     });
   });
