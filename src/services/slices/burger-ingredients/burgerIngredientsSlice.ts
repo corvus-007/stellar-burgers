@@ -7,7 +7,7 @@ import {
 } from '../../../utils/ingredient';
 import { fetchBurgerIngredients } from './burgerIngredientsThunks';
 
-type TBurgerIngredientsState = {
+export type TBurgerIngredientsState = {
   all: TIngredient[];
   isIngredientsLoading: boolean;
 };
@@ -53,4 +53,3 @@ export const {
   getIsIngredientsLoading,
   getIngredientById
 } = burgerIngredientsSlice.selectors;
-export const reducer = burgerIngredientsSlice.reducer;
