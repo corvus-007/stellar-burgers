@@ -37,7 +37,7 @@ describe('Тестирование burgerIngredientsSlice', () => {
       });
 
       test('fulfilled', () => {
-        const allIngredientsMock = [
+        const payloadMock = [
           {
             _id: '643d69a5c3f7b9001cfa093c',
             name: 'Краторная булка N-200i',
@@ -75,11 +75,11 @@ describe('Тестирование burgerIngredientsSlice', () => {
           initialState,
           {
             type: fetchBurgerIngredients.fulfilled.type,
-            payload: allIngredientsMock
+            payload: payloadMock
           }
         );
 
-        expect(all).toEqual(allIngredientsMock);
+        expect(all).toEqual(payloadMock);
         expect(isIngredientsLoading).toBe(false);
       });
     });
