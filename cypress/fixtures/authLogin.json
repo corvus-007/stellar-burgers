@@ -1,9 +1,9 @@
 {
   "success": true,
-  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzRhNGUzYTY0MTc3MDAxYjMyODcwYyIsImlhdCI6MTc3MTc3NTQ1NywiZXhwIjoxNzcxNzc2NjU3fQ.b6oxrN9ikWt5qna5_r0uUsEknCh4-RgBrOFUWdQW_Nw",
-  "refreshToken": "df7026bb622383baa52dd1c0174057eac16d5d40d552ed402ce6d776a3ffac8a5bd134158aebfc83",
+  "accessToken": "Bearer mock-token",
+  "refreshToken": "mock-refresh",
   "user": {
-    "email": "corvus007@yandex.ru",
-    "name": "Денис"
+    "email": "test@test.ru",
+    "name": "Test User"
   }
 }
