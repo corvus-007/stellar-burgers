@@ -76,11 +76,7 @@ export const burgerConstructorSlice = createSlice({
 
       state.constructorItems.ingredients.splice(newIndex, 0, movedItem);
     },
-    clearConstructorItems: (state) => {
-      state.constructorItems = {
-        bun: null,
-        ingredients: []
-      };
+    clearOrderModalData: (state) => {
       state.orderModalData = null;
     }
   },
@@ -95,6 +91,10 @@ export const burgerConstructorSlice = createSlice({
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.orderModalData = action.payload.order;
         state.orderRequest = false;
+        state.constructorItems = {
+          bun: null,
+          ingredients: []
+        };
       });
   }
 });
@@ -105,7 +105,7 @@ export const {
   removeIngredient,
   moveUpIngredient,
   moveDownIngredient,
-  clearConstructorItems
+  clearOrderModalData
 } = burgerConstructorSlice.actions;
 
 export const { getConstructorItems, getOrderRequest, getOrderModalData } =
