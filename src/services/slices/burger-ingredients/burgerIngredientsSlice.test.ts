@@ -11,8 +11,8 @@ const initialState: TBurgerIngredientsState = {
 
 describe('Тестирование burgerIngredientsSlice', () => {
   describe('Асинхронные редьюсеры', () => {
-    describe('[addCase]', () => {
-      test('pending', () => {
+    describe('[fetchBurgerIngredients] Ингредиенты', () => {
+      test('[pending] отправка', () => {
         const { all, isIngredientsLoading } = burgerIngredientsSlice.reducer(
           initialState,
           {
@@ -24,7 +24,7 @@ describe('Тестирование burgerIngredientsSlice', () => {
         expect(isIngredientsLoading).toBe(true);
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const { all, isIngredientsLoading } = burgerIngredientsSlice.reducer(
           initialState,
           {
@@ -36,7 +36,7 @@ describe('Тестирование burgerIngredientsSlice', () => {
         expect(isIngredientsLoading).toBe(false);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const payloadMock = [
           {
             _id: '643d69a5c3f7b9001cfa093c',

@@ -12,8 +12,8 @@ const initialState: TFeedsState = {
 
 describe('Тестирование feedsSlice', () => {
   describe('Асинхронные редьюсеры', () => {
-    describe('[fetchFeeds]', () => {
-      test('pending', () => {
+    describe('[fetchFeeds] Лента заказов', () => {
+      test('[pending] отправка', () => {
         const { error, isLoading } = feedsSlice.reducer(initialState, {
           type: fetchFeeds.pending.type
         });
@@ -22,7 +22,7 @@ describe('Тестирование feedsSlice', () => {
         expect(isLoading).toBe(true);
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const errorMessage = 'error';
         const { error, isLoading } = feedsSlice.reducer(initialState, {
           type: fetchFeeds.rejected.type,
@@ -33,7 +33,7 @@ describe('Тестирование feedsSlice', () => {
         expect(isLoading).toBe(false);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const payloadMock = {
           success: true,
           orders: [

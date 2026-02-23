@@ -16,7 +16,7 @@ const initialState: TAuthSliceState = {
 
 describe('Тестирование userSlice', () => {
   describe('Редьюсеры', () => {
-    test('[setUser]', () => {
+    test('[setUser] Установка пользователя', () => {
       const expectedUser = {
         name: 'User Name',
         email: 'user@email.com'
@@ -26,7 +26,7 @@ describe('Тестирование userSlice', () => {
       expect(user).toEqual(expectedUser);
     });
 
-    test('[setIsAuthChecked]', () => {
+    test('[setIsAuthChecked] Установка попытки аутентификации пользователя', () => {
       const { isAuthChecked } = userSlice.reducer(
         initialState,
         setIsAuthChecked(true)
@@ -35,7 +35,7 @@ describe('Тестирование userSlice', () => {
       expect(isAuthChecked).toBe(true);
     });
 
-    test('[setIsAuthenticated]', () => {
+    test('[setIsAuthenticated] Установка успешной аутентификации пользователя', () => {
       const { isAuthenticated } = userSlice.reducer(
         initialState,
         setIsAuthenticated(true)
@@ -46,8 +46,8 @@ describe('Тестирование userSlice', () => {
   });
 
   describe('Асинхронные редьюсеры', () => {
-    describe('[registerUser] регистрация пользователя', () => {
-      test('pending', () => {
+    describe('[registerUser] Регистрация пользователя', () => {
+      test('[pending] отправка', () => {
         const { error } = userSlice.reducer(initialState, {
           type: registerUser.pending.type
         });
@@ -55,7 +55,7 @@ describe('Тестирование userSlice', () => {
         expect(error).toBeUndefined();
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const errorMessage = 'error';
         const { isAuthChecked, error } = userSlice.reducer(initialState, {
           type: registerUser.rejected.type,
@@ -66,7 +66,7 @@ describe('Тестирование userSlice', () => {
         expect(error).toBe(errorMessage);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const expectedUser = {
           name: 'User Name',
           email: 'user@email.com'
@@ -82,8 +82,8 @@ describe('Тестирование userSlice', () => {
       });
     });
 
-    describe('[loginUser] вход пользователя', () => {
-      test('pending', () => {
+    describe('[loginUser] Вход пользователя', () => {
+      test('[pending] отправка', () => {
         const { error } = userSlice.reducer(initialState, {
           type: registerUser.pending.type
         });
@@ -91,7 +91,7 @@ describe('Тестирование userSlice', () => {
         expect(error).toBeUndefined();
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const errorMessage = 'error';
         const { error, isAuthChecked } = userSlice.reducer(initialState, {
           type: loginUser.rejected.type,
@@ -102,7 +102,7 @@ describe('Тестирование userSlice', () => {
         expect(isAuthChecked).toBe(true);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const expectedUser = {
           name: 'User Name',
           email: 'user@email.com'
@@ -120,8 +120,8 @@ describe('Тестирование userSlice', () => {
       });
     });
 
-    describe('[logoutUser] логаут пользователя', () => {
-      test('fulfilled', () => {
+    describe('[logoutUser] Логаут пользователя', () => {
+      test('[fulfilled] успех', () => {
         const { user, isAuthenticated } = userSlice.reducer(
           {
             ...initialState,
@@ -141,8 +141,8 @@ describe('Тестирование userSlice', () => {
       });
     });
 
-    describe('[updateUser]', () => {
-      test('pending', () => {
+    describe('[updateUser] Обновление пользователя', () => {
+      test('[pending] отправка', () => {
         const { error } = userSlice.reducer(initialState, {
           type: updateUser.pending.type
         });
@@ -150,7 +150,7 @@ describe('Тестирование userSlice', () => {
         expect(error).toBeUndefined();
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const errorMessage = 'error';
         const { error } = userSlice.reducer(initialState, {
           type: updateUser.rejected.type,
@@ -160,7 +160,7 @@ describe('Тестирование userSlice', () => {
         expect(error).toBe(errorMessage);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const oldUser = {
           name: 'User Name',
           email: 'user@email.com'

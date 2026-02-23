@@ -10,8 +10,8 @@ const initialState: TOrdersState = {
 
 describe('Тестирование ordersSlice', () => {
   describe('Асинхронные редьюсеры', () => {
-    describe('[fetchProfileOrders]', () => {
-      test('pending', () => {
+    describe('[fetchProfileOrders] История заказов', () => {
+      test('[pending] отправка', () => {
         const { isLoading } = ordersSlice.reducer(initialState, {
           type: fetchProfileOrders.pending.type
         });
@@ -19,7 +19,7 @@ describe('Тестирование ordersSlice', () => {
         expect(isLoading).toBe(true);
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const { isLoading } = ordersSlice.reducer(initialState, {
           type: fetchProfileOrders.rejected.type
         });
@@ -27,7 +27,7 @@ describe('Тестирование ordersSlice', () => {
         expect(isLoading).toBe(false);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const payloadMock: TOrder[] = [
           {
             _id: '697d9236a64177001b3296d7',
@@ -63,8 +63,8 @@ describe('Тестирование ordersSlice', () => {
       });
     });
 
-    describe('[fetchOrder]', () => {
-      test('pending', () => {
+    describe('[fetchOrder] Информация о заказе', () => {
+      test('[pending] отправка', () => {
         const { isLoading } = ordersSlice.reducer(initialState, {
           type: fetchOrder.pending.type
         });
@@ -72,7 +72,7 @@ describe('Тестирование ordersSlice', () => {
         expect(isLoading).toBe(true);
       });
 
-      test('rejected', () => {
+      test('[rejected] ошибка', () => {
         const { isLoading } = ordersSlice.reducer(initialState, {
           type: fetchOrder.rejected.type
         });
@@ -80,7 +80,7 @@ describe('Тестирование ordersSlice', () => {
         expect(isLoading).toBe(false);
       });
 
-      test('fulfilled', () => {
+      test('[fulfilled] успех', () => {
         const payloadMock = {
           orders: [
             {
