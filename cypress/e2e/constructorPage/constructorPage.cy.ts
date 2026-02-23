@@ -61,10 +61,14 @@ describe('Страница конструктора бургера', () => {
   });
 
   describe('Создание заказа', () => {
-    it('', () => {
+    beforeEach(() => {
       cy.intercept('POST', '**/api/auth/login', {
         fixture: 'authLogin.json'
       }).as('login');
+
+      cy.intercept('POST', '**/api/orders', {
+        fixture: 'newOrder.json'
+      }).as('newOrder');
 
       cy.visit('http://localhost:4000/login');
 
@@ -80,6 +84,24 @@ describe('Страница конструктора бургера', () => {
       addIngredient();
 
       cy.contains('Оформить заказ').click();
+      cy.wait('@newOrder');
+    });
+
+    it('нажатие кнопки Оформить заказ', () => {
+      cy.get('#modals').contains('101552');
+    });
+
+    it('закрытие по крестику', () => {
+      cy.get('#modals').find('h3').next('button').click();
+    });
+
+    it('закрытие по оверлею', () => {
+      cy.get('body').click(0, 0);
+    });
+
+    it('конструктор пуст', () => {
+      cy.contains('Выберите булки').should('exist');
+      cy.contains('Выберите начинку').should('exist');
     });
   });
 });
