@@ -58,6 +58,11 @@ describe('Страница конструктора бургера', () => {
       cy.get('body').click(4, 4);
       cy.get('#modals').should('be.empty');
     });
+
+    it('закрытие по нажатию на Esc', () => {
+      cy.get('body').trigger('keydown', { key: 'Escape' });
+      cy.get('#modals').should('be.empty');
+    });
   });
 
   describe('Создание заказа', () => {
