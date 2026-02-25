@@ -1,7 +1,5 @@
 {
   "success": true,
-  "accessToken": "Bearer mock-token",
-  "refreshToken": "mock-refresh",
   "user": {
     "email": "test@test.ru",
     "name": "Test User"

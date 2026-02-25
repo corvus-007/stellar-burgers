@@ -15,17 +15,37 @@ function addIngredient() {
   addIngredientButton.click();
 }
 
+function setTokens() {
+  cy.setCookie('accessToken', 'Bearer mock-token');
+  cy.window().then((win) => {
+    win.localStorage.setItem('refreshToken', 'mock-refresh');
+  });
+}
+
+function clearTokens() {
+  cy.clearCookie('accessToken');
+  cy.clearLocalStorage('refreshToken');
+}
+
 describe('Страница конструктора бургера', () => {
   beforeEach(() => {
+    cy.intercept('GET', '**/auth/user', {
+      fixture: 'user.json'
+    }).as('user');
     cy.intercept('GET', '**/ingredients', {
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
+    setTokens();
+
     cy.visit('http://localhost:4000/');
 
-    cy.wait('@getIngredients', {
-      timeout: 25000
-    });
+    cy.wait('@getIngredients');
+    cy.wait('@user');
+  });
+
+  afterEach(() => {
+    clearTokens();
   });
 
   it('добавление ингредиента из списка в конструктор', () => {
@@ -67,29 +87,19 @@ describe('Страница конструктора бургера', () => {
 
   describe('Создание заказа', () => {
     beforeEach(() => {
-      cy.intercept('POST', '**/api/auth/login', {
-        fixture: 'authLogin.json'
-      }).as('login');
-
       cy.intercept('POST', '**/api/orders', {
         fixture: 'newOrder.json'
       }).as('newOrder');
-
-      cy.visit('http://localhost:4000/login');
-
-      cy.get('[name="email"]').type('test@mail.ru');
-      cy.get('[name="password"]').type('password');
-      cy.get('[type="submit"]').click();
-
-      cy.wait('@login');
-
-      cy.get('header > nav').contains('Test User').should('exist');
 
       addBun();
       addIngredient();
 
       cy.contains('Оформить заказ').click();
       cy.wait('@newOrder');
+    });
+
+    it('пользователь существует', () => {
+      cy.get('header > nav').contains('Test User').should('exist');
     });
 
     it('нажатие кнопки Оформить заказ', () => {
