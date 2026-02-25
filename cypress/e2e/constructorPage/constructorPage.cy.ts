@@ -1,20 +1,6 @@
 const bunName = 'Краторная булка N-200i';
 const ingredientName = 'Биокотлета из марсианской Магнолии';
 
-function addBun() {
-  const addBunButton = cy.contains(bunName).parent('li').find('button').first();
-  addBunButton.click();
-}
-
-function addIngredient() {
-  const addIngredientButton = cy
-    .contains(ingredientName)
-    .parent('li')
-    .find('button')
-    .first();
-  addIngredientButton.click();
-}
-
 function setTokens() {
   cy.setCookie('accessToken', 'Bearer mock-token');
   cy.window().then((win) => {
@@ -38,7 +24,7 @@ describe('Страница конструктора бургера', () => {
 
     setTokens();
 
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
 
     cy.wait('@getIngredients');
     cy.wait('@user');
@@ -49,8 +35,8 @@ describe('Страница конструктора бургера', () => {
   });
 
   it('добавление ингредиента из списка в конструктор', () => {
-    addBun();
-    addIngredient();
+    cy.addIngredientByName(bunName);
+    cy.addIngredientByName(ingredientName);
 
     cy.contains(`${bunName} (верх)`).should('exist');
     cy.contains(`${bunName} (низ)`).should('exist');
@@ -91,8 +77,8 @@ describe('Страница конструктора бургера', () => {
         fixture: 'newOrder.json'
       }).as('newOrder');
 
-      addBun();
-      addIngredient();
+      cy.addIngredientByName(bunName);
+      cy.addIngredientByName(ingredientName);
 
       cy.contains('Оформить заказ').click();
       cy.wait('@newOrder');
