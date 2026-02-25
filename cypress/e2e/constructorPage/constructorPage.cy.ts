@@ -1,18 +1,6 @@
 const bunName = 'Краторная булка N-200i';
 const ingredientName = 'Биокотлета из марсианской Магнолии';
 
-function setTokens() {
-  cy.setCookie('accessToken', 'Bearer mock-token');
-  cy.window().then((win) => {
-    win.localStorage.setItem('refreshToken', 'mock-refresh');
-  });
-}
-
-function clearTokens() {
-  cy.clearCookie('accessToken');
-  cy.clearLocalStorage('refreshToken');
-}
-
 describe('Страница конструктора бургера', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/auth/user', {
@@ -22,7 +10,7 @@ describe('Страница конструктора бургера', () => {
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    setTokens();
+    cy.setTokens();
 
     cy.visit('/');
 
@@ -31,7 +19,7 @@ describe('Страница конструктора бургера', () => {
   });
 
   afterEach(() => {
-    clearTokens();
+    cy.clearTokens();
   });
 
   it('добавление ингредиента из списка в конструктор', () => {
